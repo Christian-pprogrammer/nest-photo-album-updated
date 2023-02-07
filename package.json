@@ -10,10 +10,12 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/graphql": "^10.2.0",
     "@nestjs/mapped-types": "*",
+    "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
     "apollo-server-express": "^3.11.1",
     "axios": "^1.0.0",
     "graphql": "^16.6.0",
+    "mongoose": "^6.9.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0"

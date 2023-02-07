@@ -7,15 +7,39 @@ type Album {
   exampleField: Int!
 }
 
+type User {
+  """user id"""
+  _id: String!
+
+  """user email"""
+  email: String!
+
+  """user email"""
+  password: String!
+}
+
+type Photo {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
   albums: [Album!]!
   album(id: Int!): Album!
+  users: [User!]!
+  user(id: Int!): User!
+  photos: [Photo!]!
+  photo(id: Int!): Photo!
 }
 
 type Mutation {
   createAlbum(createAlbumInput: CreateAlbumInput!): Album!
   updateAlbum(updateAlbumInput: UpdateAlbumInput!): Album!
   removeAlbum(id: Int!): Album!
+  createUser(createUserInput: CreateUserInput!): User!
+  createPhoto(createPhotoInput: CreatePhotoInput!): Photo!
+  updatePhoto(updatePhotoInput: UpdatePhotoInput!): Photo!
+  removePhoto(id: Int!): Photo!
 }
 
 input CreateAlbumInput {
@@ -24,6 +48,25 @@ input CreateAlbumInput {
 }
 
 input UpdateAlbumInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateUserInput {
+  """user email"""
+  email: String!
+
+  """user email"""
+  password: String!
+}
+
+input CreatePhotoInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePhotoInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
