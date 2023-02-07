@@ -2,72 +2,142 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Album {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type User {
   """user id"""
   _id: String!
 
-  """user email"""
-  email: String!
+  """user username"""
+  username: String!
 
-  """user email"""
+  """user password"""
   password: String!
 }
 
+type LoggedUserOutput {
+  """Generated access_token of the user"""
+  access_token: String!
+}
+
 type Photo {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """photo id"""
+  _id: String!
+
+  """photo url"""
+  photourl: String!
+
+  """photo tags"""
+  tags: [String!]!
+
+  """album"""
+  albumid: Album!
+
+  """creation date"""
+  createdAt: DateTime!
+
+  """last update date"""
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Album {
+  """album id"""
+  _id: String!
+
+  """album name"""
+  name: String!
+
+  """album description"""
+  description: String!
+
+  """album owner"""
+  user: User!
+
+  """creation date"""
+  createdAt: DateTime!
+
+  """last update date"""
+  updatedAt: DateTime!
+
+  """Photos"""
+  photos: [Photo!]!
 }
 
 type Query {
   albums: [Album!]!
-  album(id: Int!): Album!
+  album(id: String!): Album!
+  photos(albumid: String!): [Photo!]!
+  photo(id: String!): Photo!
   users: [User!]!
-  user(id: Int!): User!
-  photos: [Photo!]!
-  photo(id: Int!): Photo!
+  user(username: String!): User!
 }
 
 type Mutation {
   createAlbum(createAlbumInput: CreateAlbumInput!): Album!
   updateAlbum(updateAlbumInput: UpdateAlbumInput!): Album!
-  removeAlbum(id: Int!): Album!
-  createUser(createUserInput: CreateUserInput!): User!
+  removeAlbum(id: String!): Album!
   createPhoto(createPhotoInput: CreatePhotoInput!): Photo!
   updatePhoto(updatePhotoInput: UpdatePhotoInput!): Photo!
-  removePhoto(id: Int!): Photo!
+  removePhoto(id: String!): Photo!
+  signup(createUserInput: CreateUserInput!): User!
+  login(loginUserInput: LoginUserInput!): LoggedUserOutput!
 }
 
 input CreateAlbumInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """album name"""
+  name: String!
+
+  """album description"""
+  description: String!
 }
 
 input UpdateAlbumInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
+  """album name"""
+  name: String
 
-input CreateUserInput {
-  """user email"""
-  email: String!
-
-  """user email"""
-  password: String!
+  """album description"""
+  description: String
+  id: String!
 }
 
 input CreatePhotoInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """photo url"""
+  photourl: String!
+
+  """photo tags"""
+  tags: [String!]!
+
+  """album id"""
+  albumid: String!
 }
 
 input UpdatePhotoInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  """photo url"""
+  photourl: String
+
+  """photo tags"""
+  tags: [String!]
+
+  """album id"""
+  albumid: String
+  id: String!
+}
+
+input CreateUserInput {
+  """user username"""
+  username: String!
+
+  """user password"""
+  password: String!
+}
+
+input LoginUserInput {
+  """username of the user"""
+  username: String!
+
+  """password of the user"""
+  password: String!
 }
