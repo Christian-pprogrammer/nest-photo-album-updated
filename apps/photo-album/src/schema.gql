@@ -1,0 +1,30 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Album {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Query {
+  albums: [Album!]!
+  album(id: Int!): Album!
+}
+
+type Mutation {
+  createAlbum(createAlbumInput: CreateAlbumInput!): Album!
+  updateAlbum(updateAlbumInput: UpdateAlbumInput!): Album!
+  removeAlbum(id: Int!): Album!
+}
+
+input CreateAlbumInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateAlbumInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
