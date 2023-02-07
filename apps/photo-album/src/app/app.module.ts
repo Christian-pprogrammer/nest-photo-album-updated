@@ -9,14 +9,16 @@ import { AlbumsModule } from '../albums/albums.module';
 import { UsersModule } from '../users/users.module';
 import { PhotosModule } from '../photos/photos.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'apps/photo-album/src/schema.gql'),
     }),
-    MongooseModule.forRoot('mongodb://localhost/photo-album', {
+    MongooseModule.forRoot(process.env.MONGODB_URI, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     }),
