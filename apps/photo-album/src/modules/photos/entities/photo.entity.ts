@@ -25,6 +25,9 @@ export class Photo {
   @Field(() => Album, { description: 'album' })
   albumid: Album;
 
+  @Field(() => String, { description: 'get full base 64 encoded image' })
+  base64_encoded?: string;
+
   @Field(() => Date, { description: 'creation date' })
   createdAt: MongooseSchema.Types.Date;
 

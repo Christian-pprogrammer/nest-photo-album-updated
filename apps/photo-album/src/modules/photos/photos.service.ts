@@ -4,38 +4,72 @@ import { UpdatePhotoInput } from './dto/update-photo.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Photo } from './entities/photo.entity';
+import { createWriteStream } from 'fs';
+import path, { join } from 'path';
+import { v4 as uuidv4 } from 'uuid';
+import { UPLOAD_DIR } from '../../constants/storage';
+import { base64_encode } from '../../helpers/base64_encode';
 
 @Injectable()
 export class PhotosService {
   constructor(@InjectModel(Photo.name) private photoModel: Model<Photo>) {}
 
   async create(createPhotoInput: CreatePhotoInput) {
-    const existPhoto = await this.photoModel.findOne({
-      albumid: createPhotoInput.albumid,
-      photourl: createPhotoInput.photourl,
+    const { createReadStream, filename } = await createPhotoInput.image;
+    return new Promise((resolve) => {
+      const img_url = join(
+        UPLOAD_DIR,
+        `./${path.parse(filename).name}-${uuidv4()}${path.parse(filename).ext}`
+      );
+      createReadStream()
+        .pipe(createWriteStream(img_url))
+        .on('finish', async () => {
+          const newPhoto = new this.photoModel({
+            ...createPhotoInput,
+            photourl: img_url,
+          });
+          return resolve(await newPhoto.save());
+        })
+        .on('error', () => {
+          throw new BadRequestException('Could not save image');
+        });
     });
-    if (existPhoto)
-      throw new BadRequestException('Photo already exist in album');
-    const newPhoto = new this.photoModel(createPhotoInput);
-    return await newPhoto.save();
   }
 
   findAll(albumid: string) {
     return this.photoModel.find({ albumid });
   }
 
-  findOne(id: string) {
-    return this.photoModel.findById(id);
+  async findOne(id: string) {
+    const photo = await this.photoModel.findById(id);
+    photo.base64_encoded = base64_encode(photo.photourl);
+    return photo;
   }
 
   async update(id: string, updatePhotoInput: UpdatePhotoInput) {
-    const existPhoto = await this.photoModel.findOne({
-      albumid: updatePhotoInput.albumid,
-      photourl: updatePhotoInput.photourl,
-      _id: { $ne: id },
-    });
-    if (existPhoto)
-      throw new BadRequestException('Photo already exist in album');
+    const { createReadStream, filename } = await updatePhotoInput.image;
+    if (updatePhotoInput.image)
+      return new Promise((resolve) => {
+        const img_url = join(
+          UPLOAD_DIR,
+          `./${path.parse(filename).name}-${uuidv4()}${
+            path.parse(filename).ext
+          }`
+        );
+        createReadStream()
+          .pipe(createWriteStream(img_url))
+          .on('finish', async () => {
+            return resolve(
+              this.photoModel.findByIdAndUpdate(id, {
+                ...updatePhotoInput,
+                photo_url: img_url,
+              })
+            );
+          })
+          .on('error', () => {
+            throw new BadRequestException('Could not save image');
+          });
+      });
     return this.photoModel.findByIdAndUpdate(id, updatePhotoInput);
   }
 

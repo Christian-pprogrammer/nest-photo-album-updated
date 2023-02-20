@@ -22,7 +22,6 @@ export class PhotosResolver {
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.photosService.findOne(id);
   }
-
   @Mutation(() => Photo)
   updatePhoto(@Args('updatePhotoInput') updatePhotoInput: UpdatePhotoInput) {
     return this.photosService.update(updatePhotoInput.id, updatePhotoInput);

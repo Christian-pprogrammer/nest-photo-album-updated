@@ -19,6 +19,8 @@
     "axios": "^1.0.0",
     "bcrypt": "^5.1.0",
     "graphql": "^16.6.0",
+    "graphql-tools": "^8.3.18",
+    "graphql-upload": "12.0.0",
     "mongoose": "^6.9.1",
     "mongoose-autopopulate": "^0.17.1",
     "passport": "^0.6.0",
@@ -26,7 +28,8 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/schematics": "^9.0.0",
@@ -39,10 +42,12 @@
     "@nrwl/nx-cloud": "latest",
     "@nrwl/webpack": "15.6.3",
     "@nrwl/workspace": "15.6.3",
+    "@types/graphql-upload": "^15.0.2",
     "@types/jest": "28.1.1",
     "@types/node": "18.7.1",
     "@types/passport-jwt": "^3.0.8",
     "@types/passport-local": "^1.0.35",
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
     "eslint": "~8.15.0",

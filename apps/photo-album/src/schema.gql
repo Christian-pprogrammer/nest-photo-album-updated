@@ -31,6 +31,9 @@ type Photo {
   """album"""
   albumid: Album!
 
+  """get full base 64 encoded image"""
+  base64_encoded: String!
+
   """creation date"""
   createdAt: DateTime!
 
@@ -104,8 +107,7 @@ input UpdateAlbumInput {
 }
 
 input CreatePhotoInput {
-  """photo url"""
-  photourl: String!
+  image: Upload!
 
   """photo tags"""
   tags: [String!]!
@@ -114,9 +116,11 @@ input CreatePhotoInput {
   albumid: String!
 }
 
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
 input UpdatePhotoInput {
-  """photo url"""
-  photourl: String
+  image: Upload
 
   """photo tags"""
   tags: [String!]

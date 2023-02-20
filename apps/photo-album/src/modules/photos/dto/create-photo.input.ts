@@ -1,9 +1,10 @@
 import { InputType, Field } from '@nestjs/graphql';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 @InputType()
 export class CreatePhotoInput {
-  @Field(() => String, { description: 'photo url' })
-  photourl: string;
+  @Field(() => GraphQLUpload)
+  image: Promise<FileUpload>;
 
   @Field(() => [String], { description: 'photo tags' })
   tags: string[];
