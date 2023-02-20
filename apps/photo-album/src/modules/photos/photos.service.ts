@@ -4,7 +4,7 @@ import { UpdatePhotoInput } from './dto/update-photo.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Photo } from './entities/photo.entity';
-import { createWriteStream } from 'fs';
+import { createWriteStream, unlinkSync } from 'fs';
 import path, { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { UPLOAD_DIR } from '../../constants/storage';
@@ -73,7 +73,13 @@ export class PhotosService {
     return this.photoModel.findByIdAndUpdate(id, updatePhotoInput);
   }
 
-  remove(id: string) {
-    return this.photoModel.findByIdAndDelete(id);
+  async remove(id: string) {
+    try {
+      const deleted_photo = await this.photoModel.findByIdAndDelete(id);
+      unlinkSync(deleted_photo.photourl);
+      return deleted_photo;
+    } catch (error) {
+      throw new BadRequestException('Could not delete photo');
+    }
   }
 }
